@@ -1,0 +1,24 @@
+{
+  "name": "aw35-assignment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kris-Chil/AW35-Assignment.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Kris-Chil/AW35-Assignment/issues"
+  },
+  "homepage": "https://github.com/Kris-Chil/AW35-Assignment#readme",
+  "dependencies": {
+    "dotenv": "^17.4.2"
+  }
+}
