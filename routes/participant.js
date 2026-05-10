@@ -88,7 +88,7 @@ router.post('/add', isAuth, async (req, res, next) => {
   try {
     const { Email, FirstName, LastName, Dob, CompanyName, Salary, Currency, Country, City } = req.body;
 
-    const newParticipant = participantService.create(Email, FirstName, LastName, Dob, CompanyName, Salary, Currency, Country, City);
+    const newParticipant = await participantService.create(Email, FirstName, LastName, Dob, CompanyName, Salary, Currency, Country, City);
       res.status(200).send({
         message: 'Participant created successfully',
         data: newParticipant
