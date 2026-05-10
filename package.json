@@ -1,24 +1,20 @@
 {
   "name": "aw35-assignment",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Kris-Chil/AW35-Assignment.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/Kris-Chil/AW35-Assignment/issues"
-  },
-  "homepage": "https://github.com/Kris-Chil/AW35-Assignment#readme",
   "dependencies": {
-    "dotenv": "^17.4.2"
+    "cookie-parser": "~1.4.4",
+    "crypto": "^1.0.1",
+    "debug": "~2.6.9",
+    "dotenv": "^17.4.2",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.1",
+    "mysql2": "^3.22.3",
+    "sequelize": "^6.37.8"
   }
 }
