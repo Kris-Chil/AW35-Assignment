@@ -12,3 +12,4 @@ DIALECT = mysql
 DIALECTMODEL = mysql2
 DB_PORT = 22872
 HOST = aw35-assignment-kristinemchilson-4c09.j.aivencloud.com
+TOKEN_SECRET = secrettoken
