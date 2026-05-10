@@ -4,6 +4,7 @@ var crypto = require('crypto');
 const db = require('../models');
 const UserService = require('../services/UserService');
 const userService = new UserService(db);
+const jwt = require('jsonwebtoken');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -39,6 +40,36 @@ router.post('/login', (req, res, next) => {
           },
         });
       });
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.post('/signup', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    const existingUser = await userService.getOne(username);
+    if (existingUser) return res.status(400).json({ error: 'User already exists' });
+
+    const salt = crypto.randomBytes(16);
+    crypto.pbkdf2(password, salt, 310000, 32, 'sha256', async (err, hashedPassword) => {
+      if (err) return res.status(500).json({ error: 'Hashing error' });
+
+      try {
+        const newUser = await userService.create(username, salt, hashedPassword);
+
+        const token = EncodeJWT(newUser.Id, newUser.Username);
+        // 4. Return success response
+        res.status(201).json({
+          message: 'User created successfully',
+          data: { token, username: newUser.Username }
+        });
+      } catch (dbErr) {
+        // Handle cases like duplicate usernames if unique constraints are set
+        res.status(500).json({ error: dbErr.message });
+      }
     });
   } catch (err) {
     res.status(500).json({ error: err.message });

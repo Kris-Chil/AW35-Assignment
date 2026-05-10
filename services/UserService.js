@@ -6,22 +6,17 @@ class UserService {
 		this.Users = db.Users;
 	}
 
-	async create(username, password) {
+	async create(username, salt, encryptedPassword) {
 		return await this.Users.create({
 			Username: username,
-            Password: password,
+			Salt: salt,
+            EncryptedPassword: encryptedPassword,
 		});
 	}
 
 	async getOne(username) {
 		return await this.Users.findOne({
-			where: { username: username },
-		});
-	}
-
-    async checkPassword(password) {
-		return await this.Users.findOne({
-			where: { password: password },
+			where: { Username: username },
 		});
 	}
 }
