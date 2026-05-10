@@ -7,7 +7,9 @@ module.exports = (sequelize, Sequelize) => {
 					allowNull: false,
 					unique: true,
                     validate: {
-                        isEmail: true
+                        isEmail: {
+							msg: "Must be a valid email address"
+						}
                     }
 			},
 			Dob: {

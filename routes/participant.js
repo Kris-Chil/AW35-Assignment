@@ -38,7 +38,7 @@ router.get('/details', isAuth, async (req, res, next) => {
 
 router.get('/details/:email', isAuth, async (req, res, next) => {
     try {
-        const email = req.params;
+        const {email} = req.params;
         const emailDetails = await participantService.getParticipantEmail(email);
         if (!emailDetails) {
             return res.status(404).send({ message: 'Email not found' });
@@ -54,7 +54,7 @@ router.get('/details/:email', isAuth, async (req, res, next) => {
 
 router.get('/work/:email', isAuth, async (req, res, next) => {
     try {
-        const email = req.params;
+        const {email} = req.params;
         const emailWork = await participantService.getWorkEmail(email);
         if (!emailWork) {
             return res.status(404).send({ message: 'Email not found' });
@@ -70,7 +70,7 @@ router.get('/work/:email', isAuth, async (req, res, next) => {
 
 router.get('/home/:email', isAuth, async (req, res, next) => {
     try {
-        const email = req.params;
+        const {email} = req.params;
         const emailHome = await participantService.getHomeEmail(email);
         if (!emailHome) {
             return res.status(404).send({ message: 'Email not found' });
@@ -100,7 +100,7 @@ router.post('/add', isAuth, async (req, res, next) => {
 
 router.delete('/:email', isAuth, async (req, res, next) => {
    try {
-        const email = req.params;
+        const {email} = req.params;
         const emailDelete = await participantService.deleteEmail(email);
 
         res.status(200).send({
