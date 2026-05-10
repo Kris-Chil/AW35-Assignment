@@ -26,8 +26,8 @@ class ParticipantService {
 			FirstName,
 			LastName,
             Dob,
-            WorkId: work.id,
-            HomeId: home.id
+            CompanyName: work.companyName,
+            Country: home.country
 		}, { transaction: search });
 
         await search.commit();
