@@ -1,32 +1,36 @@
-const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+const db = require('../models');
+const UserService = require('../services/UserService');
+const userService = new UserService(db);
 
-function isAuth(req, res, next) {
-	let token = req.headers.authorization?.split(' ')[1];
+async function isAuth(req, res, next) {
+    const authHeader = req.headers.authorization;
 
-	if (!token) {
-		token = req.cookies.token;
-	}
+    if (!authHeader || !authHeader.startsWith('Basic ')) {
+        return res.status(401).json({ result: 'Authorization required' });
+    }
 
-	if (!token) {
-		return res.json({
-			statusCode: 401,
-			result: 'You are not logged in. Please login or register to continue.',
-		});
-	}
-	let decodedToken;
-	try {
-		decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
-		console.log(decodedToken); //remove
-		req.user = { id: decodedToken.id, username: decodedToken.username };
-		console.log('User: ', req.user); // remove
-	} catch (err) {
-		return res.json({
-			statusCode: 401,
-			result: 'Your session has been timed out. Please login again to continue.',
-		});
-	}
-	next();
+    try {
+        const base64Credentials = authHeader.split(' ')[1];
+        const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
+        const [username, password] = credentials.split(':');
+
+        const dbUser = await userService.getOne(username);
+        if (!dbUser) {
+            return res.status(401).json({ result: 'Invalid username or password' });
+        }
+
+        crypto.pbkdf2(password, dbUser.dataValues.Salt, 310000, 32, 'sha256', (err, hashedPassword) => {
+            if (err || !crypto.timingSafeEqual(dbUser.dataValues.EncryptedPassword, hashedPassword)) {
+                return res.status(401).json({ result: 'Invalid username or password' });
+            }
+            
+            req.user = { id: dbUser.dataValues.Id, username: dbUser.dataValues.Username };
+            next();
+        });
+    } catch (err) {
+        res.status(500).json({ error: 'Internal Server Error during authentication' });
+    }
 }
 
 module.exports = { isAuth };
-
