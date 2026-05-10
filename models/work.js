@@ -3,7 +3,7 @@ module.exports = (sequelize, Sequelize) => {
 		'Work',
 		{
 			CompanyName: Sequelize.DataTypes.STRING,
-			Salary: Sequelize.DataTypes.INT,
+			Salary: Sequelize.DataTypes.INTEGER,
             Currency: Sequelize.DataTypes.STRING
 		},
 		{
