@@ -10,7 +10,7 @@ var usersRouter = require('./routes/users');
 var participantRouter = require('./routes/participant');
 
 var db = require("./models");
-db.sequelize.sync({ force: true })
+db.sequelize.sync({ force: false })
 
 var app = express();
 
