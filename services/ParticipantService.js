@@ -4,31 +4,30 @@ class ParticipantService {
 	constructor(db) {
 		this.client = db.sequelize;
 		this.Participant = db.Participant;
-        this.Company = db.Company;
-        this.Location = db.Location;
+        this.Work = db.Work;
+        this.Home = db.Home;
 	}
 
 	async create(Email, FirstName, LastName, Dob, CompanyName, Salary, Currency, Country, City) {
 		const search = await this.client.transaction();
 
         try {
-            const [company] = await this.Company.findOrCreate({
+            const [work] = await this.Work.findOrCreate({
                 where: { CompanyName },
                 defaults: { Salary, Currency
             }, transaction: search });
 
-            const location = await this.Location.findOrCreate({
-                Country,
-                City
-            }, { transaction: search });
+            const home = await this.Home.findOrCreate({
+                where: { Country, City },
+             transaction: search });
 
             const participant = await this.Participant.create({
 			Email,
 			FirstName,
 			LastName,
             Dob,
-            CompanyId: company.id,
-            LocationId: location.id
+            WorkId: work.id,
+            HomeId: home.id
 		}, { transaction: search });
 
         await search.commit();

@@ -6,7 +6,7 @@ https://aw35-assignment.onrender.com
 .env file
 
 ADMIN_USERNAME = avnadmin
-
+ADMIN_PASSWORD = AVNS__lnBI8wrWgL0IVyqKJ3
 DATABASE_NAME = defaultdb
 DIALECT = mysql
 DIALECTMODEL = mysql2
